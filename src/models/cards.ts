@@ -1,4 +1,12 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
+
+interface Card {
+  name: string,
+  link: string
+  owner: Types.ObjectId,
+  likes: Types.ObjectId,
+  createdAt: Date,
+}
 
 const cardSchema = new Schema({
   name: {
@@ -12,12 +20,12 @@ const cardSchema = new Schema({
     required: true,
   },
   owner: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: 'user',
     required: true,
   },
   likes: [{
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     default: [],
   }],
   createdAt: {
@@ -26,4 +34,4 @@ const cardSchema = new Schema({
   },
 });
 
-export default model('card', cardSchema);
+export default model<Card>('card', cardSchema);

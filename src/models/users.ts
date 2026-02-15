@@ -1,5 +1,11 @@
 import { Schema, model } from 'mongoose';
 
+interface User {
+  name: string,
+  about: string,
+  avatar: string,
+}
+
 const userSchema = new Schema({
   name: {
     type: String,
@@ -19,4 +25,4 @@ const userSchema = new Schema({
   },
 });
 
-export default model('user', userSchema);
+export default model<User>('user', userSchema);
