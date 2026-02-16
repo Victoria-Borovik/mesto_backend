@@ -18,7 +18,9 @@ export const getUsers = (_: Request, res: Response) => {
 };
 
 export const getUser = (req: Request, res: Response) => {
-  User.findById(req.body.userId)
+  const { userId } = req.params;
+
+  User.findById(userId)
     .then((user) => {
       if (!user) {
         return res
@@ -57,7 +59,11 @@ export const updateUser = (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { name, about, avatar } = req.body;
 
-  User.findByIdAndUpdate(userId, { name, about, avatar })
+  User.findByIdAndUpdate(
+    userId,
+    { name, about, avatar },
+    { new: true, runValidators: true },
+  )
     .then((user) => {
       if (!user) {
         return res
@@ -84,12 +90,22 @@ export const updateAvatar = (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { avatar } = req.body;
 
-  User.findByIdAndUpdate(userId, { avatar })
+  User.findByIdAndUpdate(
+    userId,
+    { avatar },
+    { new: true, runValidators: true },
+  )
     .then((user) => {
       if (!user) {
         return res
           .status(NOT_FOUND_ERROR_CODE)
           .send({ message: errorText.user.invalidId });
+      }
+
+      if (!avatar) {
+        return res
+          .status(VALIDATION_ERROR_CODE)
+          .send({ message: errorText.user.invalidUpdateAvatar });
       }
 
       return res.send({ data: user });

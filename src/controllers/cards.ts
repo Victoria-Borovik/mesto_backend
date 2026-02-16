@@ -36,17 +36,30 @@ export const createCard = (req: Request, res: Response) => {
 };
 
 export const deleteCard = (req: Request, res: Response) => {
-  Card.findByIdAndDelete(req.body.cardId)
+  const { cardId } = req.params;
+
+  Card.findByIdAndDelete(cardId)
+    .then((deletedCard) => {
+      if (!deletedCard) {
+        return res
+          .status(NOT_FOUND_ERROR_CODE)
+          .send({ message: errorText.card.notFound });
+      }
+
+      return res.send({ data: deletedCard });
+    })
     .catch(() => (
       res
-        .status(NOT_FOUND_ERROR_CODE)
-        .send({ message: errorText.card.notFound })
+        .status(SERVER_ERROR_CODE)
+        .send({ message: errorText.serverFailed })
     ));
 };
 
 export const likeCard = (req: Request, res: Response) => {
+  const { cardId } = req.params;
+
   Card.findByIdAndUpdate(
-    req.body.cardId,
+    cardId,
     { $addToSet: { likes: req.user?._id } },
     { new: true },
   ).then((card) => {
@@ -71,8 +84,10 @@ export const likeCard = (req: Request, res: Response) => {
 };
 
 export const dislikeCard = (req: Request, res: Response) => {
+  const { cardId } = req.params;
+
   Card.findByIdAndUpdate(
-    req.body.cardId,
+    cardId,
     { $pull: { likes: req.user?._id } },
     { new: true },
   ).then((card) => {
