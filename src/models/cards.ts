@@ -8,7 +8,7 @@ interface Card {
   createdAt: Date,
 }
 
-const cardSchema = new Schema({
+const cardSchema = new Schema<Card>({
   name: {
     type: String,
     required: true,

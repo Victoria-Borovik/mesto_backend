@@ -6,7 +6,7 @@ interface User {
   avatar: string,
 }
 
-const userSchema = new Schema({
+const userSchema = new Schema<User>({
   name: {
     type: String,
     required: true,
