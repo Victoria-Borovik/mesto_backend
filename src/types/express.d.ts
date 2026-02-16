@@ -1,6 +1,6 @@
 declare global {
-  namespace Express {
-    interface Request {
+  export namespace Express {
+    export interface Request {
       user?: {
         _id: string;
       };
