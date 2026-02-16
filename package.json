@@ -3,13 +3,13 @@
   "author": "Victoria Kudriashova",
   "version": "1.0.0",
   "description": "Mesto is a photo sharing app. Here is his backend",
-  "main": "src\\app.ts",
+  "main": "src/app.ts",
   "scripts": {
-    "start": "npx ts-node src\\app.ts",
-    "dev": "ts-node-dev src\\app.ts",
+    "start": "npx ts-node src/app.ts",
+    "dev": "ts-node-dev src/app.ts",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint src\\**\\*.ts"
+    "lint": "npx eslint src/**/*.ts"
   },
   "repository": {
     "type": "git",
